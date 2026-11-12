@@ -52,24 +52,39 @@ git clone https://github.com/loanpasdev/petclinic-modern.git
 cd petclinic-modern
 ```
 
-### Opción A — Maven Wrapper (recomendada)
-
-```bash
-./mvnw spring-boot:run -pl petclinic-app
-```
-
-En Windows:
-
-```powershell
-.\mvnw.cmd spring-boot:run -pl petclinic-app
-```
-
-### Opción B — empaquetar y ejecutar el jar
+### Opción A — empaquetar y ejecutar el jar (recomendada)
 
 ```bash
 ./mvnw -B package
 java -jar petclinic-app/target/petclinic-app-4.0.0-SNAPSHOT.jar
 ```
+
+En Windows:
+
+```powershell
+.\mvnw.cmd -B package
+java -jar .\petclinic-app\target\petclinic-app-4.0.0-SNAPSHOT.jar
+```
+
+### Opción B — instalar módulos y usar `spring-boot:run`
+
+`spring-boot:run` debe ejecutarse en el módulo `petclinic-app`, no en el POM raíz, y los módulos
+hermanos deben estar instalados antes:
+
+```bash
+./mvnw -B install -DskipTests
+./mvnw -pl petclinic-app spring-boot:run
+```
+
+En Windows:
+
+```powershell
+.\mvnw.cmd -B install -DskipTests
+.\mvnw.cmd -pl petclinic-app spring-boot:run
+```
+
+Si el puerto 8080 está ocupado, añade `--server.port=8081` al jar o
+`-Dspring-boot.run.arguments=--server.port=8081` a Maven.
 
 La aplicación arranca en <http://localhost:8080> con H2 en memoria y los datos de ejemplo
 (`schema.sql` + `data.sql`). No requiere Docker ni base de datos externa.
@@ -189,7 +204,14 @@ Por defecto: H2 en memoria. Opcionales con Docker:
 
 ```bash
 docker compose up -d mysql        # o postgres
-./mvnw spring-boot:run -pl petclinic-app -Dspring-boot.run.profiles=mysql
+./mvnw -pl petclinic-app spring-boot:run -Dspring-boot.run.profiles=mysql
+```
+
+En Windows, entrecomilla la propiedad para que PowerShell no la parta:
+
+```powershell
+docker compose up -d mysql
+.\mvnw.cmd -pl petclinic-app spring-boot:run "-Dspring-boot.run.profiles=mysql"
 ```
 
 Variables: `MYSQL_URL`, `MYSQL_USER`, `MYSQL_PASS` / `POSTGRES_URL`, `POSTGRES_USER`, `POSTGRES_PASS`.
