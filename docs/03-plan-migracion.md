@@ -28,7 +28,7 @@ componente distribuido sin necesidad.
 |---|---|---|
 | 0 | Repo propio, `main`/`develop`/`feature/*`, Java 21 | push verificado |
 | A | `docs/01` a `docs/04` | documentos publicados |
-| B | Esqueleto multi-módulo + ArchUnit | `mvn verify` verde sin lógica nueva |
+| B | Esqueleto multi-módulo (5 módulos) | `mvn verify` verde sin lógica nueva |
 | C1 | Módulo owners (API, DTO, validación, errores) | CRUD + búsqueda probados |
 | C2 | Módulo visits (puerto `PetLookup`) | alta y consulta probadas |
 | C3 | Módulo vets | consulta con especialidades |
@@ -53,7 +53,7 @@ componente distribuido sin necesidad.
 | Web | `@WebMvcTest` | códigos HTTP, validación, `ProblemDetail` |
 | Persistencia | `@DataJpaTest` | búsqueda por apellido, unicidad de mascota |
 | Integración | `@SpringBootTest` + MockMvc | flujos completos owners/pets/visits/vets |
-| Calidad | ArchUnit + JaCoCo | límites de módulo y cobertura informativa |
+| Calidad | Dependencias de Maven | límites de módulo (sin dependencias cruzadas) |
 
 Comando único: `./mvnw verify`.
 
@@ -78,12 +78,15 @@ Comando único: `./mvnw verify`.
 | Pérdida de reglas de negocio | Media | matriz de la sección 2 + un test por regla |
 | Entorno del evaluador | Baja | H2 por defecto y README con clon limpio |
 
-## 8. Desviaciones previstas (a confirmar al cierre)
+## 8. Desviaciones (a confirmar al cierre)
 
-- Controladores MVC/Thymeleaf conservados como adaptador opcional, no como alcance principal.
-- `/oups` no se migra.
+- Frontend MVC/Thymeleaf retirado: el documento permite eliminar la capa web; el alcance evaluado
+  es el backend REST.
+- `/oups` no se migra (controlador de demostración de errores).
 - Sin Flyway ni migraciones versionadas.
 - Sin autenticación ni autorización.
+- Los tests de Testcontainers (MySQL/PostgreSQL) se retiran para que `mvn verify` funcione sin
+  Docker en un clon limpio; los perfiles de BD quedan documentados y disponibles.
 
 ## 9. Definition of Done
 

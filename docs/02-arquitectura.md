@@ -96,9 +96,13 @@ Endpoints previstos:
 
 ## 7. Web legacy
 
-Thymeleaf y los controladores MVC se conservan en `petclinic-app` como adaptador opcional, para
-preservar el comportamiento original y sus pruebas mientras la API REST se consolida. Si el tiempo
-aprieta, se declara como no migrado en `docs/03-plan-migracion.md`.
+Thymeleaf, los controladores MVC y los recursos estáticos **se retiran**. El documento de la prueba
+permite expresamente eliminar el frontend y la evaluación es de backend. La aplicación queda como
+API REST; los flujos que antes se hacían por formularios se ejecutan ahora contra `/api/v1`.
+
+Motivo: mantener dos capas de presentación (MVC y REST) duplicaba controladores, plantillas y
+pruebas, y aumentaba el riesgo de entregar una API a medias. Los documentos `docs/01` y este
+registran la retirada como desviación consciente, no como pérdida accidental de funcionalidad.
 
 ## 8. Seguridad y operación
 
@@ -113,5 +117,5 @@ aprieta, se declara como no migrado en `docs/03-plan-migracion.md`.
 |---|---|
 | `springdoc` 3.2.0 incompatible con Boot 4.1 | Validar en un spike de 15 minutos; alternativa: springdoc 3.0.x u OpenAPI estático |
 | Entidades JPA filtradas al contrato | Mappers obligatorios y revisión en PR |
-| Módulos acoplados por conveniencia | ArchUnit en `mvn verify` |
-| Pruebas MVC rotas al mover clases | Mantener el módulo web y ejecutar la suite completa en cada fase |
+| Módulos acoplados por conveniencia | Dependencias explícitas de Maven: `owners`, `visits` y `vets` solo ven `common`; `app` es el único que los ensambla |
+| Pruebas MVC rotas al mover clases | Se retiran junto con la capa MVC y se sustituyen por pruebas REST |
