@@ -96,15 +96,20 @@ Endpoints previstos:
 - Búsqueda case-insensitive resuelta en consulta (`lower(...)`) para no depender de
   `VARCHAR_IGNORECASE` de H2.
 
-## 7. Web legacy
+## 7. Capa web
 
-Thymeleaf, los controladores MVC y los recursos estáticos **se retiran**. El documento de la prueba
-permite expresamente eliminar el frontend y la evaluación es de backend. La aplicación queda como
-API REST; los flujos que antes se hacían por formularios se ejecutan ahora contra `/api/v1`.
+Thymeleaf y los controladores MVC **se retiran**: el documento de la prueba permite expresamente
+eliminar el frontend server-side y la evaluación es de backend. Los flujos que antes se hacían por
+formularios se ejecutan ahora contra `/api/v1`.
 
-Motivo: mantener dos capas de presentación (MVC y REST) duplicaba controladores, plantillas y
-pruebas, y aumentaba el riesgo de entregar una API a medias. Los documentos `docs/01` y este
-registran la retirada como desviación consciente, no como pérdida accidental de funcionalidad.
+Como valor agregado se añadió una **SPA estática** (`petclinic-app/src/main/resources/static`) escrita
+en HTML, CSS y JavaScript sin build ni dependencias externas. Spring Boot la sirve en `/` y consume la
+misma API pública; no introduce controladores MVC, plantillas ni acoplamiento al dominio. Se eligió
+esta opción frente a React/Vite para no añadir Node al entorno reproducible del evaluador.
+
+Motivo de la retirada de MVC: mantener dos capas de presentación (MVC y REST) duplicaba controladores,
+plantillas y pruebas, y aumentaba el riesgo de entregar una API a medias. Los documentos `docs/01` y
+este registran la decisión como desviación consciente, no como pérdida accidental de funcionalidad.
 
 ## 8. Seguridad y operación
 

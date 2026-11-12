@@ -21,6 +21,7 @@ OpenAPI. Las reglas de negocio del legacy se conservan y están cubiertas por pr
 | springdoc-openapi | 3.2.0 |
 | Maven Wrapper | 3.9.16 |
 | JUnit 5 + Mockito + MockMvc | incluidos en los starters de test |
+| Interfaz web | HTML + CSS + JavaScript vanilla, sin build ni dependencias |
 
 ## 2. Arquitectura
 
@@ -87,7 +88,8 @@ Si el puerto 8080 está ocupado, añade `--server.port=8081` al jar o
 `-Dspring-boot.run.arguments=--server.port=8081` a Maven.
 
 La aplicación arranca en <http://localhost:8080> con H2 en memoria y los datos de ejemplo
-(`schema.sql` + `data.sql`). No requiere Docker ni base de datos externa.
+(`schema.sql` + `data.sql`). No requiere Docker ni base de datos externa. La raíz `/` sirve la
+interfaz web; la API vive bajo `/api/v1`.
 
 Comprobación rápida:
 
@@ -166,7 +168,20 @@ Con la aplicación en marcha:
 La especificación se genera a partir de los controladores y DTO; el título, versión y descripción se
 definen en `OpenApiConfiguration`.
 
-## 6. Reglas de negocio preservadas
+## 6. Interfaz web (extra opcional)
+
+La aplicación incluye una SPA estática en `petclinic-app/src/main/resources/static` que Spring Boot
+sirve en <http://localhost:8080/>. No requiere Node ni un build aparte: se empaqueta en el mismo jar y
+consume la API pública `/api/v1`.
+
+- Propietarios: búsqueda por apellido, paginación, alta y edición, con tarjetas y sus mascotas.
+- Mascotas: alta y edición con tipo y fecha de nacimiento.
+- Visitas: historial por mascota y registro de nuevas visitas.
+- Veterinarios: tarjetas con especialidades y filtro por especialidad.
+
+Si prefieres no usar la interfaz, todos los flujos están disponibles por REST y en Swagger UI.
+
+## 7. Reglas de negocio preservadas
 
 | Regla legacy | Dónde se aplica |
 |---|---|
@@ -183,7 +198,7 @@ definen en `OpenApiConfiguration`.
 | Paginación 1-based, tamaño 5 por defecto, fuera de rango → página 1 | `OwnerService.search` |
 | Propietario/mascota/veterinario inexistente → 404 | `NotFoundException` |
 
-## 7. Pruebas
+## 8. Pruebas
 
 ```bash
 ./mvnw verify
@@ -202,7 +217,7 @@ La aplicación también usa H2 en memoria: al reiniciarla se vuelven a ejecutar 
 `data.sql`, de modo que los datos de ejemplo quedan restablecidos y las pruebas funcionales se
 pueden repetir desde cero.
 
-## 8. Perfiles de base de datos
+## 9. Perfiles de base de datos
 
 Por defecto: H2 en memoria. Opcionales con Docker:
 
@@ -220,16 +235,17 @@ docker compose up -d mysql
 
 Variables: `MYSQL_URL`, `MYSQL_USER`, `MYSQL_PASS` / `POSTGRES_URL`, `POSTGRES_USER`, `POSTGRES_PASS`.
 
-## 9. Estructura del repositorio
+## 10. Estructura del repositorio
 
 ```
 petclinic-common/   petclinic-owners/   petclinic-visits/   petclinic-vets/   petclinic-app/
 docs/               01 diagnóstico · 02 arquitectura · 03 plan · 04 uso de IA · 05 ejemplos HTTP
+petclinic-app/src/main/resources/static/   interfaz web (index.html, css, js, img)
 pom.xml             parent Maven (Java 21, dependencyManagement)
 docker-compose.yml  MySQL y PostgreSQL opcionales
 ```
 
-## 10. GitFlow
+## 11. GitFlow
 
 - `main`: entregable estable (tags `v1.0.0`, `v1.0.1`, `v1.0.2`).
 - `develop`: integración.
@@ -239,12 +255,12 @@ docker-compose.yml  MySQL y PostgreSQL opcionales
 - Commits con Conventional Commits (`docs:`, `refactor:`, `feat:`, `test:`), integraciones con
   `--no-ff`.
 
-## 11. Uso de IA
+## 12. Uso de IA
 
 La bitácora completa (herramientas, prompts, resultados aceptados/rechazados y validación humana)
 está en [`docs/04-uso-ia.md`](docs/04-uso-ia.md).
 
-## 12. Desviaciones documentadas
+## 13. Desviaciones documentadas
 
 - **Frontend MVC/Thymeleaf retirado**: el enunciado permite eliminar la capa web; el alcance
   evaluado es backend.
@@ -257,6 +273,6 @@ está en [`docs/04-uso-ia.md`](docs/04-uso-ia.md).
   desplegaban una imagen ajena al repositorio. Se conserva un único workflow Maven (`maven-build.yml`)
   que ejecuta `./mvnw -B verify` con JDK 21 en `main` y `develop`.
 
-## 13. Licencia
+## 14. Licencia
 
 Apache License 2.0. Ver [`LICENSE.txt`](LICENSE.txt).
