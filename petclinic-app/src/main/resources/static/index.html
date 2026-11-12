@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PetClinic · Clínica Veterinaria</title>
+  <meta name="description" content="Panel de la clínica veterinaria PetClinic: propietarios, mascotas, visitas y veterinarios.">
+  <link rel="icon" href="img/paw.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Saltar al contenido</a>
+
+  <header class="site-header">
+    <div class="shell header-inner">
+      <a class="brand" href="#propietarios" aria-label="PetClinic, ir al inicio">
+        <span class="brand-mark" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 13.2c-2.6 0-5.6 3.1-5.6 5.5 0 1.5 1.1 2.3 2.5 2.3 1 0 1.9-.5 3.1-.5s2.1.5 3.1.5c1.4 0 2.5-.8 2.5-2.3 0-2.4-3-5.5-5.6-5.5Z"/><ellipse cx="5.4" cy="10.6" rx="2.1" ry="2.7" transform="rotate(-18 5.4 10.6)"/><ellipse cx="9.2" cy="6.6" rx="2" ry="2.7" transform="rotate(-8 9.2 6.6)"/><ellipse cx="14.8" cy="6.6" rx="2" ry="2.7" transform="rotate(8 14.8 6.6)"/><ellipse cx="18.6" cy="10.6" rx="2.1" ry="2.7" transform="rotate(18 18.6 10.6)"/></svg>
+        </span>
+        <span class="brand-text">
+          <strong>PetClinic</strong>
+          <small>Clínica veterinaria</small>
+        </span>
+      </a>
+
+      <nav class="main-nav" aria-label="Secciones principales">
+        <button type="button" class="nav-btn is-active" data-view="owners">Propietarios</button>
+        <button type="button" class="nav-btn" data-view="vets">Veterinarios</button>
+      </nav>
+
+      <div class="header-actions">
+        <a class="ghost-link" href="/swagger-ui.html" target="_blank" rel="noopener">API docs</a>
+        <button type="button" class="btn btn-primary" data-action="new-owner">
+          <span class="btn-icon" aria-hidden="true">+</span> Nuevo propietario
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero shell" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <p class="eyebrow">Panel de gestión</p>
+        <h1 id="hero-title">Cuidamos de quienes<br><em>más quieren</em></h1>
+        <p class="hero-text">Propietarios, mascotas, visitas y el equipo veterinario, todo en un mismo lugar.</p>
+        <dl class="hero-stats">
+          <div><dt>Propietarios</dt><dd id="stat-owners">—</dd></div>
+          <div><dt>Mascotas</dt><dd id="stat-pets">—</dd></div>
+          <div><dt>Veterinarios</dt><dd id="stat-vets">—</dd></div>
+          <div><dt>Especialidades</dt><dd id="stat-specialties">—</dd></div>
+        </dl>
+      </div>
+      <div class="hero-art" aria-hidden="true">
+        <svg viewBox="0 0 260 260" class="hero-paw">
+          <circle cx="130" cy="130" r="118" class="paw-ring"/>
+          <g fill="currentColor">
+            <path d="M130 146c-19 0-41 23-41 41 0 11 8 17 18 17 7 0 14-4 23-4s16 4 23 4c10 0 18-6 18-17 0-18-22-41-41-41Z"/>
+            <ellipse cx="82" cy="126" rx="15" ry="20" transform="rotate(-18 82 126)"/>
+            <ellipse cx="110" cy="97" rx="14" ry="20" transform="rotate(-8 110 97)"/>
+            <ellipse cx="150" cy="97" rx="14" ry="20" transform="rotate(8 150 97)"/>
+            <ellipse cx="178" cy="126" rx="15" ry="20" transform="rotate(18 178 126)"/>
+          </g>
+        </svg>
+      </div>
+    </section>
+
+    <section id="view-owners" class="view shell" aria-labelledby="owners-title">
+      <div class="view-head">
+        <div>
+          <h2 id="owners-title">Propietarios</h2>
+          <p class="muted" id="owners-subtitle">Busca por apellido y consulta sus mascotas.</p>
+        </div>
+        <div class="search" role="search">
+          <span class="search-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.4-3.4"/></svg>
+          </span>
+          <input id="owner-search" type="search" placeholder="Buscar por apellido…" autocomplete="off" aria-label="Buscar propietarios por apellido">
+          <button type="button" id="clear-search" class="search-clear" data-action="clear-search" hidden aria-label="Limpiar búsqueda">×</button>
+        </div>
+      </div>
+
+      <div id="owners-grid" class="cards-grid" aria-live="polite"></div>
+
+      <nav class="pagination" id="owners-pagination" aria-label="Paginación de propietarios" hidden>
+        <button type="button" class="btn btn-ghost" data-action="prev-page">← Anterior</button>
+        <p id="page-info" class="page-info"></p>
+        <button type="button" class="btn btn-ghost" data-action="next-page">Siguiente →</button>
+      </nav>
+    </section>
+
+    <section id="view-vets" class="view shell" aria-labelledby="vets-title" hidden>
+      <div class="view-head">
+        <div>
+          <h2 id="vets-title">Nuestro equipo</h2>
+          <p class="muted">Veterinarios y especialidades de la clínica.</p>
+        </div>
+        <div class="chip-filter" id="specialty-filter" role="group" aria-label="Filtrar por especialidad"></div>
+      </div>
+      <div id="vets-grid" class="cards-grid cards-grid--vets" aria-live="polite"></div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="shell footer-inner">
+      <p><strong>PetClinic</strong> · Prueba técnica Java Backend</p>
+      <p class="muted">API REST documentada en <a href="/swagger-ui.html" target="_blank" rel="noopener">Swagger UI</a></p>
+    </div>
+  </footer>
+
+  <div id="modal-root"></div>
+  <div id="toast-root" class="toast-root" aria-live="polite" aria-atomic="true"></div>
+
+  <script src="js/app.js"></script>
+</body>
+</html>

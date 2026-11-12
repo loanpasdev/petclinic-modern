@@ -45,6 +45,7 @@ public class I18nPropertiesSyncTest {
 			files = stream.filter(p -> p.toString().endsWith(".java") || p.toString().endsWith(".html"))
 				.filter(p -> !p.toString().contains("/test/"))
 				.filter(p -> !p.getFileName().toString().endsWith("Test.java"))
+				.filter(p -> !p.toString().contains("/static/") && !p.toString().contains("\\static\\")) // SPA estática no usa Thymeleaf
 				.toList();
 		}
 

@@ -5,8 +5,11 @@
 Obligatorio: propietarios, mascotas, visitas y veterinarios expuestos por API REST, con las reglas
 de negocio del legacy preservadas y probadas. Java 21+, OpenAPI, pruebas, documentación y GitFlow.
 
-Fuera de alcance: frontend nuevo, autenticación, Kafka, Kubernetes, API Gateway, CQRS y cualquier
-componente distribuido sin necesidad.
+Opcional incluido: SPA estática de propietarios, mascotas, visitas y veterinarios, sin build ni
+dependencias externas, servida por la propia aplicación.
+
+Fuera de alcance: autenticación, Kafka, Kubernetes, API Gateway, CQRS y cualquier componente
+distribuido sin necesidad.
 
 ## 2. Matriz original vs. nuevo
 
@@ -73,15 +76,15 @@ Comando único: `./mvnw verify`.
 | Riesgo | Prob. | Mitigación |
 |---|---|---|
 | Incompatibilidad springdoc/Boot 4 | Media | spike temprano; fallback a OpenAPI estático |
-| Tiempo insuficiente | Alta | priorizar owners + visits + vets; sin frontend ni auth |
+| Tiempo insuficiente | Alta | priorizar owners + visits + vets; frontend estático solo al final |
 | Pruebas legacy rotas | Media | mantener módulo web; reemplazar pruebas MVC por REST |
 | Pérdida de reglas de negocio | Media | matriz de la sección 2 + un test por regla |
 | Entorno del evaluador | Baja | H2 por defecto y README con clon limpio |
 
 ## 8. Desviaciones (a confirmar al cierre)
 
-- Frontend MVC/Thymeleaf retirado: el documento permite eliminar la capa web; el alcance evaluado
-  es el backend REST.
+- Frontend MVC/Thymeleaf retirado: el documento permite eliminar la capa web server-side. Se añade
+  como extra una SPA estática sin build que consume la API; el alcance evaluado sigue siendo backend.
 - `/oups` no se migra (controlador de demostración de errores).
 - Sin Flyway ni migraciones versionadas.
 - Sin autenticación ni autorización.
