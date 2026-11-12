@@ -107,6 +107,11 @@ en HTML, CSS y JavaScript sin build ni dependencias externas. Spring Boot la sir
 misma API pública; no introduce controladores MVC, plantillas ni acoplamiento al dominio. Se eligió
 esta opción frente a React/Vite para no añadir Node al entorno reproducible del evaluador.
 
+La SPA consume exactamente los **DTO del contrato REST** (`OwnerResponse`, `PetResponse`,
+`VisitResponse`, `VetResponse`, `PetTypeResponse`) y los `Request` correspondientes para escribir.
+No conoce las entidades JPA ni los repositorios: la frontera de módulos que define este documento se
+mantiene también en el cliente.
+
 Motivo de la retirada de MVC: mantener dos capas de presentación (MVC y REST) duplicaba controladores,
 plantillas y pruebas, y aumentaba el riesgo de entregar una API a medias. Los documentos `docs/01` y
 este registran la decisión como desviación consciente, no como pérdida accidental de funcionalidad.

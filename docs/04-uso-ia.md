@@ -23,6 +23,9 @@ validación humana. La responsabilidad del código entregado es del candidato.
 | 7 | 2026-11-12 | Diseñar la API REST | "Expón owners/pets/visits/vets con DTO, validación y ProblemDetail" | Controladores, servicios, DTO y `GlobalExceptionHandler` | Pruebas MockMvc y smoke tests con `curl` contra H2 |
 | 8 | 2026-11-12 | Ajustar pruebas legacy | "Arregla las pruebas que dependían de la capa MVC y de `Pet.getVisits()`" | Se retiraron las pruebas MVC/Testcontainers y se reescribieron las de persistencia | `mvn verify` verde sin Docker |
 | 9 | 2026-11-12 | Cerrar documentación | "Actualiza README, ejemplos HTTP y bitácora" | `README.md`, `docs/05`, actualización de `docs/02`–`docs/04` | Revisión cruzada con el PDF y el código |
+| 10 | 2026-11-12 | Añadir frontend extra | "SPA estática sin build que consuma la API, con diseño de clínica veterinaria" | `petclinic-app/src/main/resources/static` (HTML/CSS/JS sin dependencias) | Pruebas manuales en navegador: alta de propietario, mascota, visita, error 409, paginación, filtro de especialidad |
+| 11 | 2026-11-12 | Validar la SPA en navegador | "¿La interfaz sirve la página, consume la API y no deja errores de consola?" | Verificación con inspección de red, consola y capturas | Lighthouse 100/100/100 (accesibilidad, buenas prácticas, SEO) |
+| 12 | 2026-11-12 | Ajustes de UI y caché | "Oculta el alta de propietarios en la vista de veterinarios y destaca los botones de acción" | Botón contextual por vista, botones circulares, `Cache-Control: no-cache` en recursos estáticos | Revisión visual del navegador y reejecución de los 37 tests |
 
 ## 3. Sugerencias aceptadas, rechazadas y corregidas
 
@@ -30,9 +33,13 @@ validación humana. La responsabilidad del código entregado es del candidato.
 - **Aceptada:** monolito modular con módulos `owners`, `visits`, `vets` y `common`.
 - **Rechazada:** microservicios por entidad (consistencia y tiempo).
 - **Rechazada:** Flyway/Liquibase (amplía alcance sin aportar a la evaluación).
+- **Rechazada:** React/Vite para el frontend extra (añade Node y un paso de build al entorno
+  reproducible del evaluador); se eligió una SPA estática servida por el propio jar.
 - **Corregida:** el primer plan ubicaba el repositorio como tarea de "setup" y no como bloqueo
   previo; el documento exige publicar el repo y las ramas antes de modificar código.
 - **Corregida:** se asumía que la consola H2 estaba habilitada; la configuración real no la activa.
+- **Corregida:** la SPA servía sus recursos con `max-age=12h`, lo que dejaba una versión obsoleta en
+  el navegador tras una actualización; se cambió a `no-cache` para forzar revalidación.
 
 ## 4. Validación técnica aplicada
 

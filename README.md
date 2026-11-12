@@ -176,8 +176,14 @@ consume la API pública `/api/v1`.
 
 - Propietarios: búsqueda por apellido, paginación, alta y edición, con tarjetas y sus mascotas.
 - Mascotas: alta y edición con tipo y fecha de nacimiento.
-- Visitas: historial por mascota y registro de nuevas visitas.
-- Veterinarios: tarjetas con especialidades y filtro por especialidad.
+- Visitas: historial por mascota (botón 📅 en cada mascota) y registro de nuevas visitas.
+- Veterinarios: tarjetas con especialidades y filtro por especialidad. El catálogo es de solo
+  lectura, igual que en la API: el backend solo expone `GET /api/v1/vets`.
+
+La interfaz consume **los DTO del contrato REST** (`OwnerResponse`, `PetResponse`, `VisitResponse`,
+`VetResponse`, `PetTypeResponse`), nunca las entidades JPA. Es la misma frontera que aplica el
+backend: los DTO son el contrato público y las entidades de persistencia no se exponen, de modo que
+la interfaz puede cambiar sin tocar el dominio.
 
 Si prefieres no usar la interfaz, todos los flujos están disponibles por REST y en Swagger UI.
 
@@ -247,10 +253,10 @@ docker-compose.yml  MySQL y PostgreSQL opcionales
 
 ## 11. GitFlow
 
-- `main`: entregable estable (tags `v1.0.0`, `v1.0.1`, `v1.0.2`).
+- `main`: entregable estable (tags `v1.0.0`, `v1.0.1`, `v1.0.2`, `v1.0.3`, `v1.0.4`).
 - `develop`: integración.
 - `feature/01-docs-diagnostico`, `feature/02-modulos`, `feature/03-rest-api`,
-  `feature/04-docs-entrega`.
+  `feature/04-docs-entrega`, `feature/05-frontend`.
 - `release/1.0.0` al cierre y `hotfix/1.0.1`, `hotfix/1.0.2` para correcciones puntuales.
 - Commits con Conventional Commits (`docs:`, `refactor:`, `feat:`, `test:`), integraciones con
   `--no-ff`.
