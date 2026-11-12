@@ -19,6 +19,10 @@ validación humana. La responsabilidad del código entregado es del candidato.
 | 3 | 2026-11-11 | Decidir arquitectura | "¿Monolito modular o microservicios para 1 día con estas entidades?" | Monolito modular Maven multi-módulo | Contraste con el documento de la prueba y las relaciones JPA reales |
 | 4 | 2026-11-11 | Preparar repositorio | "Configura upstream/origin y GitFlow sin perder historial" | Secuencia de comandos Git | Verificación con `git remote -v`, `git branch -a` y `git ls-remote` |
 | 5 | 2026-11-11 | Resolver autenticación Git | "Error 403 al hacer push como otra cuenta" | Diagnóstico de credencial almacenada | Comprobación con `git credential-manager github list` y `cmdkey /list` |
+| 6 | 2026-11-12 | Dividir en módulos Maven | "Convierte el proyecto en multi-módulo sin romper reglas JPA" | 5 módulos (`common`, `owners`, `visits`, `vets`, `app`), `Visit` con `petId` y sin colección en `Pet` | `mvn test` verde; se corrigieron a mano los imports JAXB y la caché JCache |
+| 7 | 2026-11-12 | Diseñar la API REST | "Expón owners/pets/visits/vets con DTO, validación y ProblemDetail" | Controladores, servicios, DTO y `GlobalExceptionHandler` | Pruebas MockMvc y smoke tests con `curl` contra H2 |
+| 8 | 2026-11-12 | Ajustar pruebas legacy | "Arregla las pruebas que dependían de la capa MVC y de `Pet.getVisits()`" | Se retiraron las pruebas MVC/Testcontainers y se reescribieron las de persistencia | `mvn verify` verde sin Docker |
+| 9 | 2026-11-12 | Cerrar documentación | "Actualiza README, ejemplos HTTP y bitácora" | `README.md`, `docs/05`, actualización de `docs/02`–`docs/04` | Revisión cruzada con el PDF y el código |
 
 ## 3. Sugerencias aceptadas, rechazadas y corregidas
 
