@@ -73,6 +73,7 @@ Endpoints previstos:
 | Recurso | Endpoints |
 |---|---|
 | Owners | `GET /api/v1/owners`, `GET /{id}`, `POST`, `PUT /{id}` |
+| Pet types | `GET /api/v1/pet-types` |
 | Pets | `POST /api/v1/owners/{ownerId}/pets`, `PUT /api/v1/owners/{ownerId}/pets/{petId}` |
 | Visits | `GET /api/v1/owners/{ownerId}/pets/{petId}/visits`, `POST` |
 | Vets | `GET /api/v1/vets`, `GET /{id}` |
@@ -82,7 +83,8 @@ Endpoints previstos:
 - `springdoc-openapi-starter-webmvc-ui` 3.2.0 (compatible con Spring Boot 4).
 - Swagger UI: `/swagger-ui.html`.
 - Especificación: `/v3/api-docs`.
-- Anotaciones `@Operation`, `@ApiResponse` y esquemas de DTO documentados.
+- La especificación se genera automáticamente a partir de los controladores y DTO; los metadatos
+  (título, versión, descripción) se declaran en `OpenApiConfiguration`.
 
 ## 6. Persistencia
 
