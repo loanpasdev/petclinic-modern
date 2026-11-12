@@ -812,6 +812,12 @@
     document.getElementById('view-owners').hidden = view !== 'owners';
     document.getElementById('view-vets').hidden = view !== 'vets';
 
+    // Mostrar/ocultar botón "Nuevo propietario" según la vista
+    const btnNewOwner = document.getElementById('btn-new-owner');
+    if (btnNewOwner) {
+      btnNewOwner.hidden = view !== 'owners';
+    }
+
     if (view === 'vets' && !state.vets.length) {
       loadVets().catch((error) => toast(errorMessage(error), 'error'));
     }

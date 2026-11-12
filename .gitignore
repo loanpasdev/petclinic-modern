@@ -46,3 +46,4 @@ out/
 _site/
 *.css
 !petclinic.css
+!petclinic-app/src/main/resources/static/css/*.css
