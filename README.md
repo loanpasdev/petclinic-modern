@@ -198,6 +198,10 @@ definen en `OpenApiConfiguration`.
 
 Todas las pruebas usan H2 en memoria y se ejecutan sin Docker.
 
+La aplicación también usa H2 en memoria: al reiniciarla se vuelven a ejecutar `schema.sql` y
+`data.sql`, de modo que los datos de ejemplo quedan restablecidos y las pruebas funcionales se
+pueden repetir desde cero.
+
 ## 8. Perfiles de base de datos
 
 Por defecto: H2 en memoria. Opcionales con Docker:
@@ -227,11 +231,11 @@ docker-compose.yml  MySQL y PostgreSQL opcionales
 
 ## 10. GitFlow
 
-- `main`: entregable estable (tag `v1.0.0`).
+- `main`: entregable estable (tags `v1.0.0`, `v1.0.1`, `v1.0.2`).
 - `develop`: integración.
 - `feature/01-docs-diagnostico`, `feature/02-modulos`, `feature/03-rest-api`,
   `feature/04-docs-entrega`.
-- `release/1.0.0` al cierre.
+- `release/1.0.0` al cierre y `hotfix/1.0.1`, `hotfix/1.0.2` para correcciones puntuales.
 - Commits con Conventional Commits (`docs:`, `refactor:`, `feat:`, `test:`), integraciones con
   `--no-ff`.
 
@@ -249,6 +253,9 @@ está en [`docs/04-uso-ia.md`](docs/04-uso-ia.md).
 - **Tests de Testcontainers retirados**: para que `mvn verify` funcione en un clon limpio sin Docker;
   los perfiles MySQL/PostgreSQL siguen disponibles.
 - **`/oups`** (controlador de demostración de errores) no se migra.
+- **CI legacy de Gradle y Kubernetes retirado**: los workflows originales compilaban con Java 17 y
+  desplegaban una imagen ajena al repositorio. Se conserva un único workflow Maven (`maven-build.yml`)
+  que ejecuta `./mvnw -B verify` con JDK 21 en `main` y `develop`.
 
 ## 13. Licencia
 
