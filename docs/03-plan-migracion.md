@@ -15,7 +15,7 @@ distribuido sin necesidad.
 
 | Operación original | Endpoint nuevo | Reglas preservadas |
 |---|---|---|
-| `GET /owners?lastName=&page=` | `GET /api/v1/owners?lastName=&page=&size=` | prefijo de apellido, trim, página 1-based, 5 por defecto |
+| `GET /owners?lastName=&page=` | `GET /api/v1/owners?lastName=&page=&size=` | prefijo de apellido, trim, página 1-based, 5 por defecto (legacy `pageSize = 5`); la SPA pide `size=6` por presentación |
 | `GET /owners/{id}` | `GET /api/v1/owners/{id}` | 404 si no existe; incluye mascotas |
 | `POST /owners/new` | `POST /api/v1/owners` | nombre/apellido ≤30, address ≤255, city ≤80, teléfono 10 dígitos |
 | `POST /owners/{id}/edit` | `PUT /api/v1/owners/{id}` | mismas validaciones + 404 |

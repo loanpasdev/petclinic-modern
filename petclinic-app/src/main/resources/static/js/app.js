@@ -6,7 +6,9 @@
   'use strict';
 
   const API = '/api/v1';
-  const PAGE_SIZE = 5;
+  // Tamaño de página de la interfaz. La API conserva el default legacy de 5; la SPA pide 6
+  // por página como decisión de presentación (la API admite cualquier tamaño entre 1 y 100).
+  const PAGE_SIZE = 6;
 
   const state = {
     view: 'owners',

@@ -105,7 +105,7 @@ Base: `/api/v1`. JSON de entrada y salida; nunca se exponen entidades JPA. Los e
 
 | Método | Ruta | Descripción | Éxito |
 |---|---|---|---|
-| GET | `/api/v1/owners?lastName=&page=1&size=5` | Busca por prefijo de apellido (página 1-based) | 200 |
+| GET | `/api/v1/owners?lastName=&page=1&size=5` | Busca por prefijo de apellido (página 1-based, `size` por defecto 5) | 200 |
 | GET | `/api/v1/owners/{id}` | Propietario con sus mascotas | 200 |
 | POST | `/api/v1/owners` | Crea propietario | 201 + `Location` |
 | PUT | `/api/v1/owners/{id}` | Actualiza propietario | 200 |
@@ -174,7 +174,8 @@ La aplicación incluye una SPA estática en `petclinic-app/src/main/resources/st
 sirve en <http://localhost:8080/>. No requiere Node ni un build aparte: se empaqueta en el mismo jar y
 consume la API pública `/api/v1`.
 
-- Propietarios: búsqueda por apellido, paginación, alta y edición, con tarjetas y sus mascotas.
+- Propietarios: búsqueda por apellido, paginación (6 por página en la interfaz), alta y edición,
+  con tarjetas y sus mascotas.
 - Mascotas: alta y edición con tipo y fecha de nacimiento.
 - Visitas: historial por mascota (botón 📅 en cada mascota) y registro de nuevas visitas.
 - Veterinarios: tarjetas con especialidades y filtro por especialidad. El catálogo es de solo
@@ -202,6 +203,10 @@ Si prefieres no usar la interfaz, todos los flujos están disponibles por REST y
 | Visita: fecha futura; por defecto mañana | `VisitRequest` + `VisitService` |
 | Búsqueda por prefijo de apellido, con `trim` | `OwnerService.search` |
 | Paginación 1-based, tamaño 5 por defecto, fuera de rango → página 1 | `OwnerService.search` |
+
+El tamaño 5 es el del legacy (`pageSize = 5` en el `OwnerController` original). La API acepta
+`size` entre 1 y 100, de modo que la interfaz web puede pedir otra página sin cambiar la regla
+legacy: la SPA usa `size=6` por ser una decisión de presentación.
 | Propietario/mascota/veterinario inexistente → 404 | `NotFoundException` |
 
 ## 8. Pruebas
