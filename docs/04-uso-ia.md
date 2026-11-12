@@ -26,6 +26,7 @@ validación humana. La responsabilidad del código entregado es del candidato.
 | 10 | 2026-11-12 | Añadir frontend extra | "SPA estática sin build que consuma la API, con diseño de clínica veterinaria" | `petclinic-app/src/main/resources/static` (HTML/CSS/JS sin dependencias) | Pruebas manuales en navegador: alta de propietario, mascota, visita, error 409, paginación, filtro de especialidad |
 | 11 | 2026-11-12 | Validar la SPA en navegador | "¿La interfaz sirve la página, consume la API y no deja errores de consola?" | Verificación con inspección de red, consola y capturas | Lighthouse 100/100/100 (accesibilidad, buenas prácticas, SEO) |
 | 12 | 2026-11-12 | Ajustes de UI y caché | "Oculta el alta de propietarios en la vista de veterinarios y destaca los botones de acción" | Botón contextual por vista, botones circulares, `Cache-Control: no-cache` en recursos estáticos | Revisión visual del navegador y reejecución de los 37 tests |
+| 13 | 2026-11-12 | Tamaño de página en la SPA | "En propietarios salen 5 tarjetas, deberían salir 6 por página" | La SPA pide `size=6`; la API conserva el default legacy de 5 | Contraste con el `pageSize = 5` del `OwnerController` legacy (`git show dc6e1d5^`) y con el test `listsOwnersByLastNamePrefixWithOneBasedPagination` |
 
 ## 3. Sugerencias aceptadas, rechazadas y corregidas
 
@@ -40,6 +41,12 @@ validación humana. La responsabilidad del código entregado es del candidato.
 - **Corregida:** se asumía que la consola H2 estaba habilitada; la configuración real no la activa.
 - **Corregida:** la SPA servía sus recursos con `max-age=12h`, lo que dejaba una versión obsoleta en
   el navegador tras una actualización; se cambió a `no-cache` para forzar revalidación.
+- **Corregida:** el `.gitignore` heredado (`*.css`) excluía la hoja de estilos de la SPA del
+  repositorio; se añadió la excepción `!petclinic-app/src/main/resources/static/css/*.css` y se
+  verificó con `git ls-tree`.
+- **Corregida:** a petición de revisar la paginación, se comprobó el código legacy antes de
+  cambiar nada: `pageSize = 5`. Se mantuvo el default de la API (regla legacy con test) y se movió
+  el tamaño 6 a la capa de presentación (la SPA), que es donde tiene sentido.
 
 ## 4. Validación técnica aplicada
 
