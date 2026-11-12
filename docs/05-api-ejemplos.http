@@ -1,0 +1,127 @@
+### PetClinic API — ejemplos ejecutables
+### Requiere la aplicación en http://localhost:8080
+### Compatible con REST Client (VS Code) o IntelliJ HTTP Client
+
+@base = http://localhost:8080/api/v1
+
+### Salud
+GET http://localhost:8080/actuator/health
+
+### OpenAPI
+GET http://localhost:8080/v3/api-docs
+
+### Listar propietarios por prefijo de apellido
+GET {{base}}/owners?lastName=Dav&page=1&size=5
+
+### Listar todos (página 1)
+GET {{base}}/owners?lastName=&page=1&size=5
+
+### Página fuera de rango: debe devolver la página 1
+GET {{base}}/owners?lastName=Dav&page=99&size=5
+
+### Obtener propietario con mascotas
+GET {{base}}/owners/1
+
+### Propietario inexistente -> 404 ProblemDetail
+GET {{base}}/owners/9999
+
+### Crear propietario -> 201
+POST {{base}}/owners
+Content-Type: application/json
+
+{
+  "firstName": "Ana",
+  "lastName": "Garcia",
+  "address": "Calle 1",
+  "city": "Madrid",
+  "telephone": "6001112222"
+}
+
+### Propietario inválido (teléfono) -> 400 con errors[]
+POST {{base}}/owners
+Content-Type: application/json
+
+{
+  "firstName": "Ana",
+  "lastName": "Garcia",
+  "address": "Calle 1",
+  "city": "Madrid",
+  "telephone": "123"
+}
+
+### Actualizar propietario
+PUT {{base}}/owners/1
+Content-Type: application/json
+
+{
+  "firstName": "George",
+  "lastName": "Franklin",
+  "address": "110 W. Liberty St.",
+  "city": "Madison",
+  "telephone": "6085551023"
+}
+
+### Catálogo de tipos de mascota
+GET {{base}}/pet-types
+
+### Añadir mascota -> 201
+POST {{base}}/owners/1/pets
+Content-Type: application/json
+
+{
+  "name": "Nina",
+  "birthDate": "2020-01-01",
+  "typeId": 1
+}
+
+### Mascota duplicada para el mismo propietario -> 409
+POST {{base}}/owners/1/pets
+Content-Type: application/json
+
+{
+  "name": "leo",
+  "birthDate": "2020-01-01",
+  "typeId": 1
+}
+
+### Actualizar mascota
+PUT {{base}}/owners/1/pets/1
+Content-Type: application/json
+
+{
+  "name": "Leo",
+  "birthDate": "2010-09-07",
+  "typeId": 1
+}
+
+### Listar visitas de una mascota
+GET {{base}}/owners/6/pets/7/visits
+
+### Registrar visita sin fecha: se usa mañana -> 201
+POST {{base}}/owners/6/pets/7/visits
+Content-Type: application/json
+
+{
+  "description": "revisión"
+}
+
+### Visita con fecha pasada -> 400
+POST {{base}}/owners/6/pets/7/visits
+Content-Type: application/json
+
+{
+  "description": "revisión",
+  "date": "2020-01-01"
+}
+
+### Visita para mascota de otro propietario -> 404
+GET {{base}}/owners/1/pets/7/visits
+
+### Listar veterinarios
+GET {{base}}/vets
+
+### Obtener veterinario
+GET {{base}}/vets/3
+
+### Veterinario inexistente -> 404
+GET {{base}}/vets/9999
